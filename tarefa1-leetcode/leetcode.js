@@ -42,10 +42,12 @@ function isValid(s) {
     }
   }
 
+
+
   return stack.length === 0;
 }
 
-  function findFirstError(s) {
+function findFirstError(s) {
   const stack = [];
   const pairs = { ')': '(', ']': '[', '}': '{' };
   const openings = Object.values(pairs);
@@ -64,7 +66,7 @@ function isValid(s) {
       if (stack.length === 0) {
         return {
           valid: false,
-          error: `Parêntese de fechamento '${char}' sem abertura correspondente`,
+          error: `Parêntese fechado '${char}' sem abertura correspondente`,
           position: i,
           character: char
         };
@@ -74,7 +76,7 @@ function isValid(s) {
       if (top.char !== pairs[char]) {
         return {
           valid: false,
-          error: `Tipo incompatível: esperado '${Object.keys(pairs).find(k => pairs[k] === top.char)}' mas encontrado '${char}'`,
+          error: `O parêntese '${char}' não corresponde ao esperado para '${top.char}'`,
           position: i,
           character: char
         };
@@ -101,8 +103,6 @@ function isValid(s) {
     character: null
   };
 }
-
-
 
 module.exports = { isValid, findFirstError };
 console.log("Início Tarefa 1 - [Chat GPT]");
