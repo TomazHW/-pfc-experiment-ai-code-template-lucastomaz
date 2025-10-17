@@ -40,3 +40,4 @@ function findFirstError(s) {
 }
 
 module.exports = { isValid, findFirstError };
+console.log("Início Tarefa 1 - [Chat GPT]");
