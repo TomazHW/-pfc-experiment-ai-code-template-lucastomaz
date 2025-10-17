@@ -36,32 +36,35 @@ function isValid(s) {
     if (['(', '[', '{'].includes(char)) {
       stack.push(char);
     } else if ([')', ']', '}'].includes(char)) {
-      if (stack.length === 0 || stack.pop() !== pairs[char]) {
-        return false;
-      }
+      if (stack.length === 0) return false;
+      const top = stack.pop();
+      if (top !== pairs[char]) return false;
     }
   }
 
   return stack.length === 0;
-
-  
 }
 
   function findFirstError(s) {
   const stack = [];
   const pairs = { ')': '(', ']': '[', '}': '{' };
+  const openings = Object.values(pairs);
+  const closings = Object.keys(pairs);
 
   for (let i = 0; i < s.length; i++) {
     const char = s[i];
 
-    if (['(', '[', '{'].includes(char)) {
+    // Caso 1: abertura
+    if (openings.includes(char)) {
       stack.push({ char, pos: i });
-    } 
-    else if ([')', ']', '}'].includes(char)) {
+    }
+
+    // Caso 2: fechamento
+    else if (closings.includes(char)) {
       if (stack.length === 0) {
         return {
           valid: false,
-          error: `Fechamento inesperado '${char}' sem abertura correspondente`,
+          error: `Parêntese de fechamento '${char}' sem abertura correspondente`,
           position: i,
           character: char
         };
@@ -71,7 +74,7 @@ function isValid(s) {
       if (top.char !== pairs[char]) {
         return {
           valid: false,
-          error: `Esperava '${Object.keys(pairs).find(k => pairs[k] === top.char)}' mas encontrou '${char}'`,
+          error: `Tipo incompatível: esperado '${Object.keys(pairs).find(k => pairs[k] === top.char)}' mas encontrado '${char}'`,
           position: i,
           character: char
         };
@@ -79,17 +82,24 @@ function isValid(s) {
     }
   }
 
+  // Caso 3: sobrou abertura sem fechamento
   if (stack.length > 0) {
-    const unclosed = stack.pop();
+    const unclosed = stack[stack.length - 1];
     return {
       valid: false,
-      error: `Abertura '${unclosed.char}' na posição ${unclosed.pos} sem fechamento correspondente`,
+      error: `Parêntese de abertura '${unclosed.char}' não foi fechado`,
       position: unclosed.pos,
       character: unclosed.char
     };
   }
 
-  return { valid: true, error: null, position: null, character: null };
+  // Caso 4: tudo certo
+  return {
+    valid: true,
+    error: null,
+    position: null,
+    character: null
+  };
 }
 
 
