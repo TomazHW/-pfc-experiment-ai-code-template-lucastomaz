@@ -375,3 +375,5 @@ class LegacyOrderProcessor {
 }
 
 module.exports = { LegacyOrderProcessor };
+
+console.log("Início Tarefa 2 - [Chat GPT]")
