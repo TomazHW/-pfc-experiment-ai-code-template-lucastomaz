@@ -1,0 +1,1 @@
+console.log("Início Tarefa 3 - [Chat GPT] ")
